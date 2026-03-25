@@ -1,0 +1,166 @@
+\documentclass{beamer}       % print frame + notes
+%\documentclass[notes=only]{beamer}   % only notes
+\setbeamertemplate{navigation symbols}[horizontal]
+%\documentclass[aspectratio=169]{beamer}
+\usepackage{pgfpages}
+% Comment out both 'show notes' commands to hide notes
+%\setbeameroption{show notes on second screen=right}
+%\setbeameroption{show notes}
+\usetheme{d2s}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{tcolorbox}
+\usepackage[export]{adjustbox}
+\usepackage{listings}  
+\usepackage{xcolor}
+\usepackage{svg}
+\usepackage{upquote}
+\usepackage{emoji}
+\setemojifont{TwemojiMozilla}
+
+\newcommand{\huggingface}{HuggingFace\emoji{hugging-face} }
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{numbercolor}{rgb}{0.5,0.5,0.5}
+\definecolor{stringcolor}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{numbercolor},
+    stringstyle=\color{stringcolor},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\newcommand{\monthyeardate}{\ifcase \month \or January\or February\or March\or %
+April\or May \or June\or July\or August\or September\or October\or November\or %
+December\fi, \number \year} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Information for Title Slide %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\title[]{Agentic AI Bootcamp}
+\subtitle[] % Text in bracket will be in footline
+{Agentic AI Safety and Guardrails}
+\author[] % Text in bracket will be in footline, empty brackets to hide from footline
+{MAJ Sean Coffey} % Separate authors with \and
+\institute
+{Army Cyber Institute, U.S. Military Academy}
+\date{\monthyeardate}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title Slide %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\DivisionLogo
+\begin{frame}[plain,noframenumbering]
+    \titlepage
+    \note{Welcome to the course! I hope you get something good out of this, but feel free to provide your honest feedback at the end so we can make this better, because this is our first time teaching this material and we can always learn and improve.
+    }
+\end{frame}
+}
+
+
+% --- Slide 1: Learning Objectives ---
+\begin{frame}{Learning Objectives}
+    By the end of this module, you will be able to:
+    \begin{itemize}
+        \item \textbf{Implement Multi-Layer Guardrails:} Design input, reasoning, and output filters.
+        \item \textbf{Master 2026 Metrics:} Utilize the Agent Value Multiple (AVM) and Task Success Rate (TSR).
+        \item \textbf{Align with NIST Standards:} Apply the "Identity and Authorization for AI Agents" framework.
+        \item \textbf{Architect Fail-Safes:} Design robust kill-switches and human-in-the-loop triggers.
+    \end{itemize}
+\end{frame}
+
+% --- Slide 2: The 2026 Safety Landscape ---
+\begin{frame}{The 2026 Safety Landscape: Governance at Runtime}
+    \begin{columns}
+        \begin{column}{0.6\textwidth}
+            \textbf{New Regulatory Realities:}
+            \begin{itemize}
+                \item \textbf{NIST AI RMF 2.0:} Shifts focus to "autonomous risk."
+                \item \textbf{OWASP Top 10 for Agents:} Highlights "Broken Agentic Authorization."
+                \item \textbf{Identity-Centric Safety:} Agents now require verifiable non-human identities (NHI).
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.4\textwidth}
+            \begin{alertblock}{The 2026 Challenge}
+                "Deterministic security for non-deterministic systems."
+            \end{alertblock}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- Slide 3: Multi-Layer Guardrail Architecture ---
+\begin{frame}{Multi-Layer Guardrail Architecture}
+    \centering
+    
+    \vspace{0.3cm}
+    \begin{enumerate}
+        \item \textbf{Input Stage:} Jailbreak detection and PII redaction.
+        \item \textbf{Process Stage (Logic):} Task decomposition checks and "Reasoning Boundaries."
+        \item \textbf{Output Stage:} Groundedness checks (Does it cite sources?) and policy alignment.
+    \end{enumerate}
+\end{frame}
+
+% --- Slide 4: Performance Metrics: Beyond Accuracy ---
+\begin{frame}{Performance Metrics: Beyond Accuracy}
+    \begin{table}[]
+        \centering
+        \begin{tabular}{@{}ll@{}}
+            \toprule
+            \textbf{Metric} & \textbf{Description} \\ \midrule
+            \textbf{Agent Value Multiple (AVM)} & Value generated / Total inference + ops cost. \\
+            \textbf{Goal Success Rate (GSR)} & \% of sessions where all sub-goals were completed. \\
+            \textbf{Tool Selection Accuracy} & Correctness of tool choice vs. ground truth. \\
+            \textbf{Reasoning Latency} & Time spent in "Thought" vs. "Action" phases. \\ \bottomrule
+        \end{tabular}
+    \end{table}
+    \vspace{0.3cm}
+    \centering
+    \textit{Success is no longer just a correct answer; it is a reliable process.}
+\end{frame}
+
+% --- Slide 5: The Agent Kill-Switch & Human-in-the-Loop ---
+\begin{frame}{The Agent Kill-Switch \& HITL}
+    \begin{block}{Fail-Safe Design Patterns}
+        \begin{itemize}
+            \item \textbf{Recursive Loop Detection:} Automatic termination after $N$ failed tool attempts.
+            \item \textbf{Value Thresholds:} Human approval required for actions exceeding \$500.
+            \item \textbf{Semantic Divergence:} Halting when the agent's plan deviates from the system prompt.
+        \end{itemize}
+    \end{block}
+    \centering
+    \textbf{Human-in-the-Loop (HITL) is not a bottleneck; it is a governance layer.}
+\end{frame}
+
+% --- Slide 6: Summary ---
+\begin{frame}{Summary \& Next Steps}
+    \begin{itemize}
+        \item Safety is an \textbf{engineering requirement}, not a post-processing filter.
+        \item Use \textbf{structured metrics} like AVM to justify agentic spend.
+        \item \textbf{Next Block:} We will conclude with "Additional Topics," including Agentic RAG and scaling to multi-agent swarms.
+    \end{itemize}
+\end{frame}
+
+
+\end{document}
+
+
