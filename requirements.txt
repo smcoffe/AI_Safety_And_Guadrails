@@ -1,0 +1,30 @@
+# Requirements for: Lab - Evaluating Agentic AI.ipynb
+# Agentic AI Bootcamp — Army Cyber Institute, USMA
+#
+# Install with: pip install -r requirements.txt
+
+# --- Core data / visualization ---
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+numpy>=1.24.0
+
+# --- Safety evaluation ---
+detoxify>=0.5.2          # Local toxicity scoring (Unitary)
+transformers>=4.40.0     # BERT fill-mask for bias probing
+torch>=2.0.0             # Backend for detoxify and transformers
+
+# --- Token counting ---
+tiktoken>=0.6.0          # OpenAI tokenizer (used for cost estimation)
+
+# --- LLM APIs (optional — simulated fallback data included) ---
+openai>=1.30.0           # OpenAI API (GPT-4o / GPT-4o-mini)
+anthropic>=0.28.0        # Anthropic API (Claude)
+
+# --- RAG evaluation (Section 6 extension) ---
+ragas>=0.1.9             # Faithfulness, answer relevancy, context recall
+langchain-openai>=0.1.0  # Required by ragas for OpenAI-backed evals
+
+# --- Jupyter ---
+notebook>=7.0.0          # Jupyter Notebook server
+ipykernel>=6.0.0         # Python kernel for Jupyter
