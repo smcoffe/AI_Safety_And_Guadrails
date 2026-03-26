@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic AI Safety &amp; Guardrails — Interactive Infographics</title>
+<style>
+  :root {
+    --navy: #1F3864;
+    --blue: #2E74B5;
+    --blue-light: #D5E8F0;
+    --green: #1E6B3A;
+    --green-light: #D5EDDF;
+    --red: #8B1A1A;
+    --red-light: #FDECEA;
+    --amber: #7D4E00;
+    --amber-light: #FFF3CD;
+    --gray: #F2F2F2;
+    --dark: #1a1a2e;
+    --text: #1a1a2e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0d1b2a;
+    color: #e8eaf0;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,42,0.97);
+    border-bottom: 2px solid #2E74B5;
+    display: flex; align-items: center; gap: 0;
+    padding: 0 24px; height: 56px;
+    backdrop-filter: blur(8px);
+  }
+  nav .brand {
+    font-size: 13px; font-weight: 700; color: #7eb8e8; letter-spacing: 1px;
+    margin-right: 32px; white-space: nowrap;
+  }
+  nav button {
+    background: none; border: none; cursor: pointer;
+    padding: 6px 14px; font-size: 13px; color: #a8c0d8;
+    border-bottom: 3px solid transparent; height: 56px;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  nav button:hover { color: #fff; }
+  nav button.active { color: #7eb8e8; border-bottom-color: #2E74B5; font-weight: 600; }
+
+  /* MAIN */
+  main { margin-top: 56px; }
+  .panel { display: none; padding: 40px 24px; max-width: 1100px; margin: 0 auto; }
+  .panel.active { display: block; }
+
+  /* HERO */
+  .hero {
+    text-align: center; padding: 60px 24px 40px;
+    background: linear-gradient(135deg, #0d1b2a 0%, #1F3864 50%, #0d1b2a 100%);
+  }
+  .hero h1 { font-size: 2.2rem; font-weight: 700; color: #7eb8e8; margin-bottom: 8px; }
+  .hero p { font-size: 1.1rem; color: #a8c0d8; max-width: 700px; margin: 0 auto; }
+  .hero .badge {
+    display: inline-block; margin: 12px 6px 0;
+    background: rgba(46,116,181,0.2); border: 1px solid #2E74B5;
+    border-radius: 20px; padding: 4px 14px; font-size: 12px; color: #7eb8e8;
+  }
+
+  /* SECTION TITLE */
+  .sec-title {
+    font-size: 1.5rem; font-weight: 700; color: #7eb8e8;
+    margin-bottom: 6px; padding-bottom: 8px;
+    border-bottom: 2px solid #2E74B5;
+  }
+  .sec-sub { font-size: 14px; color: #a8c0d8; margin-bottom: 28px; }
+
+  /* CARDS */
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(46,116,181,0.3);
+    border-radius: 12px; padding: 24px;
+    transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    cursor: default;
+  }
+  .card:hover {
+    border-color: #2E74B5;
+    box-shadow: 0 0 24px rgba(46,116,181,0.25);
+  }
+  .card-grid { display: grid; gap: 16px; }
+  .card-grid-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  @media (max-width: 700px) {
+    .card-grid-2, .card-grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* GUARDRAIL PIPELINE */
+  .pipeline {
+    display: flex; gap: 0; align-items: stretch;
+    background: rgba(0,0,0,0.3); border-radius: 16px;
+    overflow: hidden; border: 1px solid rgba(46,116,181,0.3);
+  }
+  .pipe-stage {
+    flex: 1; padding: 24px 20px; cursor: pointer;
+    border-right: 1px solid rgba(46,116,181,0.2);
+    transition: background 0.3s, transform 0.2s;
+    position: relative;
+  }
+  .pipe-stage:last-child { border-right: none; }
+  .pipe-stage:hover { background: rgba(46,116,181,0.15); }
+  .pipe-stage.active { background: rgba(46,116,181,0.25); }
+  .pipe-stage .stage-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; margin-bottom: 10px;
+  }
+  .pipe-stage .stage-name { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .pipe-stage .stage-desc { font-size: 12px; color: #a8c0d8; }
+  .pipe-arrow {
+    display: flex; align-items: center; padding: 0 4px;
+    color: #2E74B5; font-size: 22px; font-weight: 700;
+  }
+  .detail-box {
+    margin-top: 20px; border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(46,116,181,0.4);
+    transition: all 0.4s;
+  }
+  .detail-header {
+    padding: 14px 20px; font-weight: 700; font-size: 15px;
+    background: rgba(46,116,181,0.25);
+  }
+  .detail-body { padding: 20px; background: rgba(0,0,0,0.2); }
+  .detail-item {
+    display: flex; gap: 12px; margin-bottom: 16px;
+    padding: 14px; border-radius: 8px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+    cursor: pointer; transition: background 0.2s;
+  }
+  .detail-item:hover { background: rgba(255,255,255,0.09); }
+  .detail-item:last-child { margin-bottom: 0; }
+  .detail-icon { font-size: 22px; flex-shrink: 0; }
+  .detail-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .detail-text p { font-size: 13px; color: #a8c0d8; line-height: 1.5; }
+  .detail-text .example {
+    margin-top: 8px; font-size: 12px; color: #7eb8e8;
+    border-left: 2px solid #2E74B5; padding-left: 10px;
+    font-style: italic;
+  }
+
+  /* METRICS */
+  .metric-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(46,116,181,0.3);
+    border-radius: 12px; overflow: hidden;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .metric-card:hover, .metric-card.expanded {
+    border-color: #2E74B5;
+    box-shadow: 0 0 20px rgba(46,116,181,0.3);
+  }
+  .metric-header {
+    padding: 18px 20px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .metric-name { font-weight: 700; font-size: 15px; }
+  .metric-abbr {
+    font-size: 12px; font-weight: 700; letter-spacing: 1px;
+    padding: 3px 10px; border-radius: 12px;
+    background: rgba(46,116,181,0.25); color: #7eb8e8;
+  }
+  .metric-body { padding: 0 20px 20px; display: none; }
+  .metric-card.expanded .metric-body { display: block; }
+  .metric-formula {
+    font-family: 'Courier New', monospace; font-size: 14px;
+    padding: 12px 16px; background: rgba(0,0,0,0.35);
+    border-radius: 8px; border: 1px solid rgba(46,116,181,0.3);
+    color: #7eb8e8; margin-bottom: 12px;
+  }
+  .metric-desc { font-size: 13px; color: #c0d0e0; line-height: 1.6; margin-bottom: 10px; }
+  .metric-tip {
+    font-size: 12px; padding: 10px 14px;
+    background: rgba(30,107,58,0.15); border: 1px solid rgba(30,107,58,0.4);
+    border-radius: 8px; color: #a0d8b0;
+  }
+
+  /* AVM CALCULATOR */
+  .calc-box {
+    background: rgba(255,255,255,0.04); border-radius: 12px;
+    border: 1px solid rgba(46,116,181,0.3); padding: 24px;
+    margin-top: 20px;
+  }
+  .calc-title { font-weight: 700; font-size: 15px; margin-bottom: 16px; color: #7eb8e8; }
+  .calc-row { display: flex; gap: 12px; margin-bottom: 12px; align-items: center; }
+  .calc-row label { font-size: 13px; width: 200px; flex-shrink: 0; color: #a8c0d8; }
+  .calc-row input {
+    flex: 1; padding: 8px 12px; border-radius: 8px;
+    background: rgba(0,0,0,0.35); border: 1px solid rgba(46,116,181,0.4);
+    color: #e8eaf0; font-size: 14px; font-family: 'Courier New', monospace;
+  }
+  .calc-row input:focus { outline: none; border-color: #2E74B5; }
+  .calc-result {
+    margin-top: 16px; padding: 16px; border-radius: 10px;
+    font-size: 1.2rem; font-weight: 700; text-align: center;
+    transition: all 0.3s;
+  }
+  .result-good { background: rgba(30,107,58,0.2); border: 2px solid #1E6B3A; color: #6fcf97; }
+  .result-bad  { background: rgba(139,26,26,0.2); border: 2px solid #8B1A1A; color: #eb5757; }
+  .result-neutral { background: rgba(46,116,181,0.2); border: 2px solid #2E74B5; color: #7eb8e8; }
+
+  /* KILL-SWITCH FLOW */
+  .flow-container {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0; position: relative;
+  }
+  .flow-node {
+    width: 320px; padding: 14px 20px; border-radius: 12px;
+    text-align: center; font-size: 14px; font-weight: 600;
+    position: relative; transition: all 0.3s;
+    cursor: pointer;
+  }
+  .flow-node.start { background: rgba(31,56,100,0.7); border: 2px solid #2E74B5; color: #7eb8e8; }
+  .flow-node.check { background: rgba(125,78,0,0.3); border: 2px solid #d4a017; color: #f5c842; }
+  .flow-node.action { background: rgba(139,26,26,0.3); border: 2px solid #8B1A1A; color: #ff8080; }
+  .flow-node.ok    { background: rgba(30,107,58,0.3); border: 2px solid #1E6B3A; color: #6fcf97; }
+  .flow-node.human { background: rgba(46,116,181,0.3); border: 2px solid #2E74B5; color: #7eb8e8; }
+  .flow-node:hover { transform: scale(1.03); box-shadow: 0 0 16px rgba(46,116,181,0.3); }
+  .flow-connector {
+    width: 2px; height: 30px;
+    background: rgba(46,116,181,0.5);
+    position: relative;
+  }
+  .flow-connector::after {
+    content: "▼"; position: absolute; bottom: -4px; left: 50%;
+    transform: translateX(-50%); font-size: 12px; color: #2E74B5;
+  }
+  .flow-branch {
+    display: flex; gap: 60px; align-items: flex-start;
+    position: relative; margin: 0;
+  }
+  .flow-branch-line {
+    position: absolute; top: 0; left: calc(50% - 30px); right: calc(50% - 30px);
+    height: 2px; background: rgba(46,116,181,0.4);
+  }
+  .branch-label {
+    font-size: 12px; padding: 2px 8px; border-radius: 10px;
+    font-weight: 700; margin: 0 auto 6px;
+    display: block; text-align: center; width: fit-content;
+  }
+  .label-yes { background: rgba(30,107,58,0.3); color: #6fcf97; }
+  .label-no  { background: rgba(139,26,26,0.3); color: #ff8080; }
+  .flow-tooltip {
+    display: none; position: absolute; z-index: 50;
+    background: #0d1b2a; border: 1px solid #2E74B5;
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 12px; color: #a8c0d8; width: 220px;
+    top: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    pointer-events: none;
+  }
+  .flow-node:hover .flow-tooltip { display: block; }
+
+  /* NIST / LANDSCAPE RADAR */
+  .landscape-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 700px) { .landscape-grid { grid-template-columns: 1fr; } }
+  .framework-card {
+    border-radius: 12px; padding: 20px;
+    border: 1px solid rgba(46,116,181,0.3);
+    background: rgba(255,255,255,0.03);
+    transition: all 0.3s; cursor: pointer;
+  }
+  .framework-card:hover { border-color: #2E74B5; box-shadow: 0 0 20px rgba(46,116,181,0.2); }
+  .framework-card.expanded .fc-body { display: block; }
+  .fc-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .fc-icon { font-size: 28px; }
+  .fc-name { font-weight: 700; font-size: 15px; }
+  .fc-tag {
+    font-size: 11px; padding: 2px 8px; border-radius: 10px;
+    background: rgba(46,116,181,0.2); color: #7eb8e8; margin-top: 2px;
+    display: inline-block;
+  }
+  .fc-summary { font-size: 13px; color: #a8c0d8; line-height: 1.5; }
+  .fc-body { display: none; margin-top: 14px; }
+  .fc-point {
+    display: flex; gap: 10px; padding: 10px 12px; border-radius: 8px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 8px; font-size: 13px; color: #c0d0e0; line-height: 1.5;
+  }
+  .fc-point-icon { flex-shrink: 0; }
+  .tension-banner {
+    margin-top: 24px; padding: 20px 24px; border-radius: 12px;
+    background: linear-gradient(135deg, rgba(139,26,26,0.2), rgba(31,56,100,0.2));
+    border: 1px solid rgba(139,26,26,0.5); text-align: center;
+  }
+  .tension-banner h3 { font-size: 1.1rem; color: #ff8080; margin-bottom: 8px; }
+  .tension-banner p { font-size: 14px; color: #c0d0e0; max-width: 600px; margin: 0 auto; }
+
+  /* QUIZ */
+  .quiz-card {
+    background: rgba(255,255,255,0.04); border-radius: 14px;
+    border: 1px solid rgba(46,116,181,0.3); padding: 28px;
+    margin-bottom: 20px;
+  }
+  .quiz-q { font-size: 15px; font-weight: 600; margin-bottom: 16px; line-height: 1.5; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt {
+    padding: 12px 16px; border-radius: 8px; cursor: pointer;
+    border: 1px solid rgba(46,116,181,0.3);
+    background: rgba(255,255,255,0.03);
+    font-size: 13px; transition: all 0.2s; user-select: none;
+  }
+  .quiz-opt:hover { background: rgba(46,116,181,0.15); border-color: #2E74B5; }
+  .quiz-opt.correct { background: rgba(30,107,58,0.2); border-color: #1E6B3A; color: #6fcf97; }
+  .quiz-opt.wrong { background: rgba(139,26,26,0.2); border-color: #8B1A1A; color: #ff8080; }
+  .quiz-opt.reveal-correct { background: rgba(30,107,58,0.1); border-color: #1E6B3A; color: #6fcf97; }
+  .quiz-feedback {
+    display: none; margin-top: 14px; padding: 14px 16px; border-radius: 8px;
+    font-size: 13px; line-height: 1.6;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.good { background: rgba(30,107,58,0.15); border: 1px solid #1E6B3A; color: #a0d8b0; }
+  .quiz-feedback.bad  { background: rgba(139,26,26,0.15); border: 1px solid #8B1A1A; color: #ffb3b3; }
+
+  /* PROGRESS */
+  .progress-bar { height: 4px; background: rgba(46,116,181,0.2); border-radius: 2px; margin-bottom: 24px; }
+  .progress-fill { height: 100%; background: #2E74B5; border-radius: 2px; transition: width 0.4s; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: 8px; cursor: pointer;
+    font-size: 14px; font-weight: 600; border: none;
+    transition: all 0.2s; text-decoration: none;
+  }
+  .btn-primary {
+    background: #2E74B5; color: #fff;
+  }
+  .btn-primary:hover { background: #1F3864; box-shadow: 0 0 12px rgba(46,116,181,0.4); }
+  .btn-outline {
+    background: transparent; color: #7eb8e8;
+    border: 1px solid #2E74B5;
+  }
+  .btn-outline:hover { background: rgba(46,116,181,0.15); }
+  .btn-sm { padding: 6px 14px; font-size: 12px; }
+
+  /* CHIPS */
+  .chip {
+    display: inline-block; padding: 4px 12px; border-radius: 12px;
+    font-size: 12px; font-weight: 600; margin: 3px;
+  }
+  .chip-blue   { background: rgba(46,116,181,0.2); color: #7eb8e8; border: 1px solid rgba(46,116,181,0.4); }
+  .chip-green  { background: rgba(30,107,58,0.2);  color: #6fcf97; border: 1px solid rgba(30,107,58,0.4); }
+  .chip-red    { background: rgba(139,26,26,0.2);  color: #ff8080; border: 1px solid rgba(139,26,26,0.4); }
+  .chip-amber  { background: rgba(125,78,0,0.25);  color: #f5c842; border: 1px solid rgba(212,160,23,0.4); }
+
+  /* UTILITY */
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mt-32 { margin-top: 32px; }
+  .flex { display: flex; }
+  .gap-12 { gap: 12px; }
+  .flex-wrap { flex-wrap: wrap; }
+  .text-center { text-align: center; }
+  .label-sm { font-size: 12px; color: #7eb8e8; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .divider { height: 1px; background: rgba(46,116,181,0.2); margin: 28px 0; }
+  .note-box {
+    padding: 14px 18px; border-radius: 10px; font-size: 13px;
+    background: rgba(31,56,100,0.3); border: 1px solid rgba(46,116,181,0.4);
+    color: #a8c0d8; line-height: 1.6; margin-top: 16px;
+  }
+  .note-box strong { color: #7eb8e8; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand">⚙ AGENTIC AI SAFETY</div>
+  <button class="active" onclick="showPanel('overview')">Overview</button>
+  <button onclick="showPanel('landscape')">2026 Landscape</button>
+  <button onclick="showPanel('guardrails')">Guardrail Pipeline</button>
+  <button onclick="showPanel('metrics')">Metrics</button>
+  <button onclick="showPanel('killswitch')">Kill-Switch</button>
+  <button onclick="showPanel('quiz')">Knowledge Check</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Agentic AI Safety &amp; Guardrails</h1>
+  <p>Interactive teaching infographics for the Agentic AI Bootcamp. Click through each section to explore concepts, run the AVM calculator, and test your knowledge.</p>
+  <span class="badge">Army Cyber Institute · USMA</span>
+  <span class="badge">MAJ Sean Coffey</span>
+  <span class="badge">March 2026</span>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 1: OVERVIEW                         -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="panel-overview" class="panel active">
+  <div class="sec-title">Module Overview</div>
+  <div class="sec-sub">Four learning objectives anchor this block. Click each card to explore the concept.</div>
+
+  <div class="card-grid card-grid-2">
+    <div class="card" onclick="toggleCard(this)">
+      <div class="label-sm">Objective 1</div>
+      <div style="font-size:1.1rem; font-weight:700; color:#7eb8e8; margin:6px 0;">Multi-Layer Guardrails</div>
+      <p style="font-size:13px; color:#a8c0d8;">Design input, reasoning, and output filters to create defense-in-depth for agentic systems.</p>
+      <div class="card-detail" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid rgba(46,116,181,0.3);">
+        <p style="font-size:13px; color:#c0d0e0; line-height:1.6;">Guardrails operate at three stages: <strong style="color:#7eb8e8">Input</strong> (before the agent processes), <strong style="color:#7eb8e8">Process</strong> (during reasoning), and <strong style="color:#7eb8e8">Output</strong> (before the response reaches the user). No single layer is sufficient — each catches what the previous one misses. Navigate to the <em>Guardrail Pipeline</em> tab for a detailed interactive walkthrough.</p>
+        <div class="mt-16 flex gap-12 flex-wrap">
+          <span class="chip chip-blue">Jailbreak Detection</span>
+          <span class="chip chip-blue">PII Redaction</span>
+          <span class="chip chip-blue">Task Decomposition</span>
+          <span class="chip chip-blue">Groundedness Checks</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="label-sm">Objective 2</div>
+      <div style="font-size:1.1rem; font-weight:700; color:#7eb8e8; margin:6px 0;">2026 Performance Metrics</div>
+      <p style="font-size:13px; color:#a8c0d8;">Use AVM and GSR to evaluate whether agentic systems deliver measurable value.</p>
+      <div class="card-detail" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid rgba(46,116,181,0.3);">
+        <p style="font-size:13px; color:#c0d0e0; line-height:1.6;">Modern agent evaluation goes far beyond accuracy. The <strong style="color:#7eb8e8">Agent Value Multiple (AVM)</strong> answers the ROI question; the <strong style="color:#7eb8e8">Goal Success Rate (GSR)</strong> measures process completeness. Try the AVM calculator in the <em>Metrics</em> tab.</p>
+        <div class="mt-16 flex gap-12 flex-wrap">
+          <span class="chip chip-green">AVM</span>
+          <span class="chip chip-green">GSR</span>
+          <span class="chip chip-green">Tool Accuracy</span>
+          <span class="chip chip-green">Reasoning Latency</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="label-sm">Objective 3</div>
+      <div style="font-size:1.1rem; font-weight:700; color:#7eb8e8; margin:6px 0;">NIST Standards Alignment</div>
+      <p style="font-size:13px; color:#a8c0d8;">Apply the "Identity and Authorization for AI Agents" framework from NIST AI RMF 2.0.</p>
+      <div class="card-detail" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid rgba(46,116,181,0.3);">
+        <p style="font-size:13px; color:#c0d0e0; line-height:1.6;">NIST AI RMF 2.0 introduces <strong style="color:#7eb8e8">autonomous risk</strong> as a category distinct from human-directed risk. Agents must be treated as <strong style="color:#7eb8e8">Non-Human Identities (NHI)</strong> with verifiable credentials, scoped authorization, and auditable action logs. See the <em>2026 Landscape</em> tab for details.</p>
+        <div class="mt-16 flex gap-12 flex-wrap">
+          <span class="chip chip-amber">NIST AI RMF 2.0</span>
+          <span class="chip chip-amber">OWASP Top 10</span>
+          <span class="chip chip-amber">NHI Identity</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+      <div class="label-sm">Objective 4</div>
+      <div style="font-size:1.1rem; font-weight:700; color:#7eb8e8; margin:6px 0;">Fail-Safe Architecture</div>
+      <p style="font-size:13px; color:#a8c0d8;">Design robust kill-switches and human-in-the-loop triggers for operational safety.</p>
+      <div class="card-detail" style="display:none; margin-top:14px; padding-top:14px; border-top:1px solid rgba(46,116,181,0.3);">
+        <p style="font-size:13px; color:#c0d0e0; line-height:1.6;">Three fail-safe patterns: <strong style="color:#7eb8e8">recursive loop detection</strong>, <strong style="color:#7eb8e8">value thresholds</strong> for HITL approval, and <strong style="color:#7eb8e8">semantic divergence detection</strong>. Human-in-the-Loop is not friction — it is a governance layer. Explore the interactive decision tree in the <em>Kill-Switch</em> tab.</p>
+        <div class="mt-16 flex gap-12 flex-wrap">
+          <span class="chip chip-red">Loop Detection</span>
+          <span class="chip chip-red">Value Thresholds</span>
+          <span class="chip chip-red">Semantic Divergence</span>
+          <span class="chip chip-red">HITL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="text-center" style="color:#a8c0d8; font-size:13px; padding:10px 0;">
+    ↑ Click any card to expand details &nbsp;|&nbsp; Use the navigation tabs to explore each topic in depth
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 2: 2026 LANDSCAPE                   -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="panel-landscape" class="panel">
+  <div class="sec-title">The 2026 Safety Landscape</div>
+  <div class="sec-sub">Three major frameworks define the regulatory and threat environment for agentic AI. Click each card to expand.</div>
+
+  <div class="landscape-grid">
+    <div class="framework-card" onclick="toggleFC(this)">
+      <div class="fc-header">
+        <div class="fc-icon">📋</div>
+        <div>
+          <div class="fc-name">NIST AI RMF 2.0</div>
+          <span class="fc-tag">Governance & Risk</span>
+        </div>
+      </div>
+      <div class="fc-summary">Shifts focus from human-directed risk to <strong style="color:#7eb8e8">autonomous risk</strong> — the risk arising when AI systems make independent decisions without human oversight.</div>
+      <div class="fc-body">
+        <div class="fc-point"><span class="fc-point-icon">🔑</span><span><strong>Autonomous Risk Category:</strong> Agents acting independently create a risk category that previous frameworks did not anticipate. RMF 2.0 requires organizations to classify and manage this explicitly.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">🆔</span><span><strong>Non-Human Identity (NHI):</strong> Agents must be issued verifiable credentials — like service accounts — so their actions can be attributed, audited, and revoked.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">📋</span><span><strong>Procurement Impact:</strong> DoD and federal contracting increasingly requires NIST AI RMF compliance documentation. This is no longer optional.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">🔗</span><span><strong>Reference:</strong> nvlpubs.nist.gov — AI Risk Management Framework</span></div>
+      </div>
+    </div>
+
+    <div class="framework-card" onclick="toggleFC(this)">
+      <div class="fc-header">
+        <div class="fc-icon">🛡️</div>
+        <div>
+          <div class="fc-name">OWASP Top 10 for Agents</div>
+          <span class="fc-tag">Security Vulnerabilities</span>
+        </div>
+      </div>
+      <div class="fc-summary">The #1 vulnerability for agentic AI systems: <strong style="color:#ff8080">Broken Agentic Authorization</strong> — agents performing actions they were never explicitly authorized to do.</div>
+      <div class="fc-body">
+        <div class="fc-point"><span class="fc-point-icon">🚨</span><span><strong>Broken Agentic Authorization:</strong> An agent with 'read' permissions somehow triggering 'write' operations through chained tool calls. Authorization must be enforced at every step, not just at entry.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">⛓️</span><span><strong>Privilege Escalation via Chaining:</strong> Agents can combine low-privilege tool calls to achieve high-privilege outcomes. Each tool call must be independently authorized.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">💉</span><span><strong>Prompt Injection (Top 2):</strong> Malicious content in the agent's environment — documents, web pages, tool outputs — instructs the agent to take unauthorized actions.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">🔗</span><span><strong>Reference:</strong> owasp.org — Top 10 for LLM Applications and Agentic AI</span></div>
+      </div>
+    </div>
+
+    <div class="framework-card" onclick="toggleFC(this)">
+      <div class="fc-header">
+        <div class="fc-icon">🪪</div>
+        <div>
+          <div class="fc-name">Identity-Centric Safety</div>
+          <span class="fc-tag">Non-Human Identities</span>
+        </div>
+      </div>
+      <div class="fc-summary">Agents are <strong style="color:#7eb8e8">Non-Human Identities (NHI)</strong> that require the same identity lifecycle management as human users: issuance, validation, rotation, and revocation.</div>
+      <div class="fc-body">
+        <div class="fc-point"><span class="fc-point-icon">🔐</span><span><strong>Credential Issuance:</strong> Every agent instance must receive scoped credentials at launch — not just inherit permissions from its orchestrator.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">📝</span><span><strong>Action Logging:</strong> All agent actions must be logged against its identity. Without this, you cannot audit what happened, cannot attribute errors, cannot hold anyone accountable.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">🚫</span><span><strong>Revocation:</strong> If an agent is compromised or misbehaves, its credentials must be revocable immediately — just like revoking a user's badge.</span></div>
+      </div>
+    </div>
+
+    <div class="framework-card" onclick="toggleFC(this)">
+      <div class="fc-header">
+        <div class="fc-icon">⚔️</div>
+        <div>
+          <div class="fc-name">Military Analogy: ROE</div>
+          <span class="fc-tag">Teaching Tool</span>
+        </div>
+      </div>
+      <div class="fc-summary">Rules of Engagement are <strong style="color:#f5c842">deterministic constraints</strong> on a <strong style="color:#ff8080">non-deterministic battlefield</strong>. Guardrails are the AI equivalent of ROE.</div>
+      <div class="fc-body">
+        <div class="fc-point"><span class="fc-point-icon">📜</span><span><strong>ROE → System Prompt:</strong> The rules that define what the agent may and may not do, under what conditions.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">🗺️</span><span><strong>Battlefield → Operating Environment:</strong> Unpredictable, adversarial, containing both friendly and hostile inputs.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">👁️</span><span><strong>NCO Oversight → HITL:</strong> A human supervisor who can halt action, clarify ambiguity, and maintain accountability.</span></div>
+        <div class="fc-point"><span class="fc-point-icon">📡</span><span><strong>Radio SOP → Loop Detection:</strong> After N failed transmission attempts, report up the chain rather than keep pressing transmit.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tension-banner mt-24">
+    <h3>⚡ The 2026 Core Tension</h3>
+    <p>"Deterministic security for non-deterministic systems."<br><br>
+    Secure systems are predictable. AI agents are not. This tension cannot be fully resolved — it must be managed through layered controls, robust monitoring, and deliberate human oversight at every consequential decision point.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 3: GUARDRAIL PIPELINE               -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="panel-guardrails" class="panel">
+  <div class="sec-title">Multi-Layer Guardrail Architecture</div>
+  <div class="sec-sub">Click a stage to explore the controls. Defense in depth means each layer catches what the previous one missed.</div>
+
+  <div class="pipeline">
+    <div class="pipe-stage active" id="stage-input" onclick="selectStage('input')">
+      <div class="stage-num" style="background:rgba(46,116,181,0.3); color:#7eb8e8;">1</div>
+      <div class="stage-name" style="color:#7eb8e8;">INPUT</div>
+      <div class="stage-desc">Before the agent sees the prompt</div>
+    </div>
+    <div style="display:flex; align-items:center; padding:0 8px; color:#2E74B5; font-size:20px; font-weight:700;">→</div>
+    <div class="pipe-stage" id="stage-process" onclick="selectStage('process')">
+      <div class="stage-num" style="background:rgba(125,78,0,0.3); color:#f5c842;">2</div>
+      <div class="stage-name" style="color:#f5c842;">PROCESS</div>
+      <div class="stage-desc">During reasoning and planning</div>
+    </div>
+    <div style="display:flex; align-items:center; padding:0 8px; color:#2E74B5; font-size:20px; font-weight:700;">→</div>
+    <div class="pipe-stage" id="stage-output" onclick="selectStage('output')">
+      <div class="stage-num" style="background:rgba(30,107,58,0.3); color:#6fcf97;">3</div>
+      <div class="stage-name" style="color:#6fcf97;">OUTPUT</div>
+      <div class="stage-desc">Before the response reaches the world</div>
+    </div>
+  </div>
+
+  <div id="detail-input" class="detail-box">
+    <div class="detail-header" style="color:#7eb8e8;">🔒 Stage 1: Input Guardrails</div>
+    <div class="detail-body">
+      <div class="detail-item">
+        <div class="detail-icon">🛡️</div>
+        <div class="detail-text">
+          <h4>Jailbreak / Prompt Injection Detection</h4>
+          <p>Pattern classifiers trained on known jailbreak templates intercept adversarial inputs before they reach the model. Uses ML classifiers, regex patterns, and semantic similarity to known attack vectors.</p>
+          <div class="example">Example: Input beginning "Ignore all previous instructions and..." triggers rejection before LLM processing.</div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">🔏</div>
+        <div class="detail-text">
+          <h4>PII Redaction / Tokenization</h4>
+          <p>Named Entity Recognition (NER) identifies and strips or tokenizes Personally Identifiable Information from documents before they enter the LLM context window. Prevents sensitive data from appearing in logs, caches, or training data.</p>
+          <div class="example">SSNs, personnel records, classified designations replaced with [REDACTED] or tokens before processing.</div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">📋</div>
+        <div class="detail-text">
+          <h4>Input Schema Validation</h4>
+          <p>Structured inputs (JSON, XML, API calls) are validated against an expected schema. Malformed or out-of-schema inputs are rejected before the agent attempts to process them.</p>
+          <div class="example">A logistics agent expects structured order data; freeform narrative input is routed for human review.</div>
+        </div>
+      </div>
+      <div class="note-box">
+        <strong>Why this matters:</strong> Without input guardrails, a malicious actor can redirect the agent's behavior entirely through a crafted prompt — before any other safety control has a chance to intervene.
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-process" class="detail-box" style="display:none;">
+    <div class="detail-header" style="color:#f5c842;">⚙️ Stage 2: Process / Logic Guardrails</div>
+    <div class="detail-body">
+      <div class="detail-item">
+        <div class="detail-icon">🗺️</div>
+        <div class="detail-text">
+          <h4>Task Decomposition Checks</h4>
+          <p>The agent's proposed action plan is validated against an authorized task ontology before execution begins. Sub-tasks that were not authorized by the original request trigger a review or halt.</p>
+          <div class="example">A scheduling agent that proposes to "access the payment API" as a sub-task is flagged — it was only authorized to schedule, not to touch financial systems.</div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">🧠</div>
+        <div class="detail-text">
+          <h4>Reasoning Boundaries (Chain-of-Thought Monitoring)</h4>
+          <p>The agent's intermediate reasoning steps (its "thought" traces) are monitored for semantic drift using embedding similarity. If the agent's reasoning diverges from its stated objective, execution pauses.</p>
+          <div class="example">An intelligence summary agent whose reasoning begins referencing unauthorized data sources is halted before generating its output.</div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">🔁</div>
+        <div class="detail-text">
+          <h4>Recursive Loop Detection</h4>
+          <p>Automatic termination triggers after N consecutive failed tool calls on the same task. Prevents infinite retry loops that consume compute and can destabilize downstream systems.</p>
+          <div class="example">After 5 failed attempts to call an API that is down, the agent terminates and surfaces the failure to a human reviewer — it does not keep trying.</div>
+        </div>
+      </div>
+      <div class="note-box">
+        <strong>Most technically complex layer:</strong> Process guardrails require instrumenting the agent's internal reasoning loop, which is often opaque. This is the hardest to retrofit onto existing systems and the most likely to be skipped under schedule pressure.
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-output" class="detail-box" style="display:none;">
+    <div class="detail-header" style="color:#6fcf97;">✅ Stage 3: Output Guardrails</div>
+    <div class="detail-body">
+      <div class="detail-item">
+        <div class="detail-icon">📎</div>
+        <div class="detail-text">
+          <h4>Groundedness / Citation Verification</h4>
+          <p>Factual claims in the output are verified against retrieved source documents using retrieval-augmented grounding. Outputs with unverifiable claims are flagged or suppressed.</p>
+          <div class="example">An intelligence report that cites a source not in the retrieval corpus is returned with a "UNVERIFIED CLAIM" flag before reaching the analyst.</div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">⚖️</div>
+        <div class="detail-text">
+          <h4>Policy Alignment Classification</h4>
+          <p>Output is passed through policy classifiers checking for prohibited content, classification level violations, legal compliance issues, and organizational policy adherence.</p>
+          <div class="example">An output containing content rated above the requesting user's clearance level is blocked and logged for security review.</div>
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-icon">🎯</div>
+        <div class="detail-text">
+          <h4>Format and Scope Validation</h4>
+          <p>Outputs are checked to ensure they match the expected format and scope of the original request. An agent that returns 10x more information than requested, or in the wrong format, may be leaking data or hallucinating.</p>
+          <div class="example">A summarization agent that returns a 50-page document when asked for a 1-page summary is flagged — scope explosion is a signal of reasoning failure.</div>
+        </div>
+      </div>
+      <div class="note-box">
+        <strong>Easiest to add, least sufficient alone:</strong> Output guardrails are the most accessible layer to implement but cannot catch failures that occurred in the reasoning process. An agent that takes harmful <em>actions</em> (not just harmful <em>outputs</em>) cannot be stopped by output filters.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 4: METRICS                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="panel-metrics" class="panel">
+  <div class="sec-title">Performance Metrics: Beyond Accuracy</div>
+  <div class="sec-sub">Click each metric to expand. Use the AVM Calculator below to evaluate a real scenario.</div>
+
+  <div style="display:flex; flex-direction:column; gap:12px;">
+    <div class="metric-card" onclick="toggleMetric(this)">
+      <div class="metric-header">
+        <div>
+          <div class="metric-name">Agent Value Multiple</div>
+          <div style="font-size:12px; color:#a8c0d8; margin-top:3px;">Answers: Is this agent worth the cost?</div>
+        </div>
+        <span class="metric-abbr">AVM</span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-formula">AVM = Value Generated ÷ (Inference Cost + Ops Cost)</div>
+        <div class="metric-desc">
+          AVM is the return-on-investment metric for agentic AI. An AVM below 1.0 means the agent costs more than it delivers — a human or simpler tool would have been more efficient. An AVM above 3.0 represents strong operational value.
+        </div>
+        <div class="metric-tip">⭐ Program manager metric — know this one cold. When asked "why should we fund this AI agent?" your answer should begin with its AVM.</div>
+      </div>
+    </div>
+
+    <div class="metric-card" onclick="toggleMetric(this)">
+      <div class="metric-header">
+        <div>
+          <div class="metric-name">Goal Success Rate</div>
+          <div style="font-size:12px; color:#a8c0d8; margin-top:3px;">Answers: Does the agent complete what it starts?</div>
+        </div>
+        <span class="metric-abbr">GSR</span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-formula">GSR = Sessions where ALL sub-goals completed ÷ Total sessions × 100%</div>
+        <div class="metric-desc">
+          The critical word is ALL. A session that produces a polished final output but skips the verification step counts as a failure. GSR measures process completeness, not just output quality. A 95% GSR still means 1 in 20 sessions fails entirely.
+        </div>
+        <div class="metric-tip">⭐ "Success is no longer just a correct answer; it is a reliable process." — The key conceptual shift of this module.</div>
+      </div>
+    </div>
+
+    <div class="metric-card" onclick="toggleMetric(this)">
+      <div class="metric-header">
+        <div>
+          <div class="metric-name">Tool Selection Accuracy</div>
+          <div style="font-size:12px; color:#a8c0d8; margin-top:3px;">Answers: Does the agent pick the right tool?</div>
+        </div>
+        <span class="metric-abbr">TSA</span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-formula">TSA = Correct tool selections ÷ Total tool calls × 100%</div>
+        <div class="metric-desc">
+          An agent that selects the wrong tool doesn't just fail the current task — it may trigger unintended side effects in external systems. TSA is measured against a ground-truth benchmark of optimal tool choices for each task type.
+        </div>
+        <div class="metric-tip">⭐ Analogy: "Agents that pick wrong tools are like soldiers who fire the wrong weapon — expensive, dangerous, and potentially irreversible."</div>
+      </div>
+    </div>
+
+    <div class="metric-card" onclick="toggleMetric(this)">
+      <div class="metric-header">
+        <div>
+          <div class="metric-name">Reasoning Latency</div>
+          <div style="font-size:12px; color:#a8c0d8; margin-top:3px;">Answers: Is the agent thinking too much (or too little)?</div>
+        </div>
+        <span class="metric-abbr">RL</span>
+      </div>
+      <div class="metric-body">
+        <div class="metric-formula">RL = Time in "Thought" phases ÷ Time in "Action" phases</div>
+        <div class="metric-desc">
+          High thought-to-action ratios may indicate prompt confusion, under-specified tasks, or reasoning loops. Very low ratios may indicate the agent is acting without adequate planning — a safety risk for consequential tasks.
+        </div>
+        <div class="metric-tip">⭐ The ideal ratio varies by task. High-stakes tasks (financial, medical, operational) should have higher reasoning latency — more deliberation before action.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-box mt-32">
+    <div class="calc-title">🧮 AVM Calculator — Try It</div>
+    <div class="calc-row">
+      <label>Value Generated ($)</label>
+      <input type="number" id="avm-value" value="500" oninput="calcAVM()" placeholder="e.g. 500">
+    </div>
+    <div class="calc-row">
+      <label>Inference / API Cost ($)</label>
+      <input type="number" id="avm-inference" value="80" oninput="calcAVM()" placeholder="e.g. 80">
+    </div>
+    <div class="calc-row">
+      <label>Ops / Labor Cost ($)</label>
+      <input type="number" id="avm-ops" value="120" oninput="calcAVM()" placeholder="e.g. 120">
+    </div>
+    <div id="avm-result" class="calc-result result-neutral">Enter values above to calculate AVM</div>
+    <div class="note-box" style="margin-top:12px;">
+      <strong>Interpretation:</strong> AVM &lt; 1.0 = agent costs more than it delivers. AVM 1–2 = marginal value, evaluate alternatives. AVM 2–5 = clear operational value. AVM &gt; 5 = high-value automation candidate.
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 5: KILL-SWITCH                      -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="panel-killswitch" class="panel">
+  <div class="sec-title">The Agent Kill-Switch &amp; Human-in-the-Loop</div>
+  <div class="sec-sub">Interactive decision flowchart. Hover over each node for details. Click to highlight the path.</div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;">
+    <div>
+      <div class="flow-container" id="flowchart">
+        <div class="flow-node start" onclick="highlightPath('start')">
+          Agent Receives Task
+          <div class="flow-tooltip">The agent is given a goal. All subsequent guardrails evaluate whether it can proceed safely.</div>
+        </div>
+        <div class="flow-connector"></div>
+        <div class="flow-node check" onclick="highlightPath('scope')">
+          Is task within authorized scope?
+          <div class="flow-tooltip">Task decomposition check: does the proposed plan match the authorized task ontology?</div>
+        </div>
+        <div class="flow-connector"></div>
+
+        <div style="display:flex; gap:32px; justify-content:center; width:100%; position:relative;">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:0;">
+            <span class="branch-label label-no">✗ No</span>
+            <div class="flow-node action" onclick="highlightPath('reject')">
+              Reject &amp; Surface to HITL
+              <div class="flow-tooltip">Unauthorized scope: human-in-the-loop reviewer receives notification with full context.</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:0;">
+            <span class="branch-label label-yes">✓ Yes</span>
+            <div class="flow-connector"></div>
+            <div class="flow-node check" onclick="highlightPath('loop')">
+              Failed tool calls &gt; N?
+              <div class="flow-tooltip">Recursive loop detection: if N consecutive tool calls fail, execution halts automatically.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-connector"></div>
+        <div class="flow-node check" onclick="highlightPath('value')">
+          Action value &gt; $500 threshold?
+          <div class="flow-tooltip">Value threshold check: any action exceeding the configured threshold requires explicit human approval before execution.</div>
+        </div>
+        <div class="flow-connector"></div>
+
+        <div style="display:flex; gap:32px; justify-content:center; width:100%;">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:0;">
+            <span class="branch-label label-yes">✓ Yes</span>
+            <div class="flow-node human" onclick="highlightPath('hitl')">
+              Human Approval Required
+              <div class="flow-tooltip">HITL governance layer: human reviewer approves or rejects the specific action before the agent proceeds.</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:0;">
+            <span class="branch-label label-no">✗ No</span>
+            <div class="flow-connector"></div>
+            <div class="flow-node check" onclick="highlightPath('semantic')">
+              Semantic divergence detected?
+              <div class="flow-tooltip">Embedding similarity between current reasoning and original objective drops below threshold — agent has drifted from its goal.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flow-connector"></div>
+        <div class="flow-node ok" onclick="highlightPath('execute')">
+          ✓ Execute Action &amp; Log
+          <div class="flow-tooltip">Action proceeds under agent's NHI credentials, with full logging for audit trail.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title" style="font-size:1.1rem; margin-bottom:12px;">Fail-Safe Patterns</div>
+
+      <div class="card" style="margin-bottom:12px; cursor:default;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="font-weight:700; color:#ff8080;">🔁 Recursive Loop Detection</div>
+          <span class="chip chip-red">Automatic</span>
+        </div>
+        <p style="font-size:13px; color:#c0d0e0; line-height:1.5;">Terminate after N consecutive failed tool calls on the same task. The value of N is tuned to operational context. After termination, surface the failure state to HITL for diagnosis.</p>
+      </div>
+
+      <div class="card" style="margin-bottom:12px; cursor:default;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="font-weight:700; color:#f5c842;">💰 Value Thresholds</div>
+          <span class="chip chip-amber">HITL Trigger</span>
+        </div>
+        <p style="font-size:13px; color:#c0d0e0; line-height:1.5;">Human approval required for any action exceeding the configured value threshold ($500 default). Threshold is adjustable per agent role, operational context, and risk tolerance.</p>
+        <div class="mt-16">
+          <div class="label-sm">Adjust threshold</div>
+          <input type="range" id="threshold-slider" min="100" max="10000" value="500" step="100" oninput="updateThreshold()" style="width:100%; accent-color:#2E74B5;">
+          <div style="text-align:center; font-size:14px; color:#f5c842; font-weight:700; margin-top:6px;">Current threshold: $<span id="threshold-val">500</span></div>
+        </div>
+      </div>
+
+      <div class="card" style="cursor:default;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <div style="font-weight:700; color:#7eb8e8;">🧠 Semantic Divergence</div>
+          <span class="chip chip-blue">Advanced</span>
+        </div>
+        <p style="font-size:13px; color:#c0d0e0; line-height:1.5;">Continuous embedding similarity check between current reasoning and original objective. When similarity drops below threshold, halt and request clarification. Prevents "boiling frog" drift.</p>
+      </div>
+
+      <div class="tension-banner" style="margin-top:16px;">
+        <h3 style="font-size:1rem;">Human-in-the-Loop is Governance, Not Friction</h3>
+        <p style="font-size:13px;">Automation removes humans from <em>repetitive, low-stakes</em> decisions. HITL ensures humans remain accountable for <em>consequential</em> ones. Designing HITL triggers is how you enforce that distinction at the system level.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  PANEL 6: QUIZ                             -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="panel-quiz" class="panel">
+  <div class="sec-title">Knowledge Check</div>
+  <div class="sec-sub">Test your understanding of Agentic AI Safety and Guardrails. Click an answer to reveal feedback.</div>
+
+  <div class="progress-bar"><div class="progress-fill" id="quiz-progress" style="width:0%"></div></div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">1. An AI agent has 'read' permissions but manages to trigger write operations through a chain of tool calls. Which OWASP vulnerability does this represent?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(this, false, 'q1')">Prompt Injection</div>
+      <div class="quiz-opt" onclick="answer(this, true, 'q1')">Broken Agentic Authorization</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q1')">Insecure Output Handling</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q1')">Model Denial of Service</div>
+    </div>
+    <div id="q1-feedback" class="quiz-feedback good">
+      ✓ Correct! Broken Agentic Authorization (#1 on the OWASP Top 10 for Agents) occurs when an agent performs actions it was never explicitly authorized to do — often through privilege escalation via chained tool calls. Authorization must be enforced at every individual tool call, not just at the entry point.
+    </div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">2. You deploy a logistics agent that processes 100 shipment requests. It produces correct final outputs in 97 cases. But in 40 of those 97 successes, it skipped the inventory verification sub-step. What is the agent's Goal Success Rate?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(this, false, 'q2')">97%</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q2')">60%</div>
+      <div class="quiz-opt" onclick="answer(this, true, 'q2')">57%</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q2')">40%</div>
+    </div>
+    <div id="q2-feedback" class="quiz-feedback good">
+      ✓ Correct! GSR measures sessions where ALL sub-goals are completed. 97 outputs succeeded, but 40 of those skipped the verification sub-step — so only 57 sessions fully succeeded. GSR = 57/100 = 57%. The agent appears to be performing at 97%, but its actual process reliability is 57%.
+    </div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">3. An AI agent generates value worth $1,200 per week. Its inference costs are $150/week and operational overhead is $250/week. What is its AVM, and how would you interpret it?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(this, false, 'q3')">AVM = 3.0 — marginal value</div>
+      <div class="quiz-opt" onclick="answer(this, true, 'q3')">AVM = 3.0 — clear operational value</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q3')">AVM = 4.8 — high-value automation</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q3')">AVM = 0.8 — agent costs more than it delivers</div>
+    </div>
+    <div id="q3-feedback" class="quiz-feedback good">
+      ✓ Correct! AVM = $1,200 ÷ ($150 + $250) = $1,200 ÷ $400 = 3.0. An AVM of 3.0 represents clear operational value — the agent delivers 3x the value of its costs. This is the range (2–5) where you can confidently justify continued investment.
+    </div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">4. Which guardrail layer is MOST difficult to retrofit onto an existing agentic system, and why?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(this, false, 'q4')">Input — requires retraining the base model</div>
+      <div class="quiz-opt" onclick="answer(this, true, 'q4')">Process — requires instrumenting the agent's internal reasoning loop</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q4')">Output — requires access to classified policy documents</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q4')">All three are equally difficult to add</div>
+    </div>
+    <div id="q4-feedback" class="quiz-feedback good">
+      ✓ Correct! Process-layer guardrails (task decomposition checks, reasoning boundary monitoring, loop detection) require instrumenting the agent's internal reasoning loop — which is often opaque and not designed with external monitoring in mind. Input and output guardrails wrap the agent externally; process guardrails must be integrated into its core execution logic.
+    </div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">5. NIST AI RMF 2.0 requires AI agents to be treated as Non-Human Identities (NHI). What is the PRIMARY operational benefit of this requirement?</div>
+    <div class="quiz-opts">
+      <div class="quiz-opt" onclick="answer(this, false, 'q5')">It reduces inference costs by 15–20%</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q5')">It prevents the agent from accessing the internet</div>
+      <div class="quiz-opt" onclick="answer(this, true, 'q5')">It enables attribution, audit trails, and credential revocation when agents misbehave</div>
+      <div class="quiz-opt" onclick="answer(this, false, 'q5')">It ensures agents comply with copyright law</div>
+    </div>
+    <div id="q5-feedback" class="quiz-feedback good">
+      ✓ Correct! Treating agents as NHIs means every action is logged against a verifiable identity. If an agent causes harm, you can audit exactly what it did, who authorized it, and what credentials it used. Critically, you can also revoke those credentials immediately — preventing further harm. Without NHI management, there is no accountability chain.
+    </div>
+  </div>
+
+  <div id="quiz-complete" style="display:none; text-align:center; padding:32px; background:rgba(30,107,58,0.15); border:1px solid #1E6B3A; border-radius:14px; margin-top:16px;">
+    <div style="font-size:2rem; margin-bottom:8px;">🎖️</div>
+    <div style="font-size:1.3rem; font-weight:700; color:#6fcf97; margin-bottom:8px;">Knowledge Check Complete</div>
+    <div style="font-size:14px; color:#a8c0d8;">Score: <span id="quiz-score" style="color:#6fcf97; font-weight:700;"></span></div>
+    <div style="font-size:13px; color:#a8c0d8; margin-top:8px;">Review the presenter&#39;s script and interactive panels to reinforce any areas you missed.</div>
+  </div>
+</div>
+
+<script>
+// NAV
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  const btns = document.querySelectorAll('nav button');
+  const panels = ['overview','landscape','guardrails','metrics','killswitch','quiz'];
+  btns[panels.indexOf(name)].classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// OVERVIEW CARD TOGGLE
+function toggleCard(card) {
+  const detail = card.querySelector('.card-detail');
+  if (detail) {
+    detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
+// LANDSCAPE FC TOGGLE
+function toggleFC(card) {
+  card.classList.toggle('expanded');
+}
+
+// GUARDRAIL STAGE SELECT
+function selectStage(stage) {
+  ['input','process','output'].forEach(s => {
+    document.getElementById('stage-' + s).classList.remove('active');
+    const det = document.getElementById('detail-' + s);
+    if (det) det.style.display = 'none';
+  });
+  document.getElementById('stage-' + stage).classList.add('active');
+  const det = document.getElementById('detail-' + stage);
+  if (det) det.style.display = 'block';
+}
+
+// METRIC TOGGLE
+function toggleMetric(card) {
+  card.classList.toggle('expanded');
+}
+
+// AVM CALCULATOR
+function calcAVM() {
+  const val = parseFloat(document.getElementById('avm-value').value) || 0;
+  const inf = parseFloat(document.getElementById('avm-inference').value) || 0;
+  const ops = parseFloat(document.getElementById('avm-ops').value) || 0;
+  const cost = inf + ops;
+  const resultEl = document.getElementById('avm-result');
+  if (cost === 0) {
+    resultEl.textContent = 'Enter cost values to calculate AVM';
+    resultEl.className = 'calc-result result-neutral';
+    return;
+  }
+  const avm = val / cost;
+  let cls, emoji, interp;
+  if (avm < 1.0) {
+    cls = 'result-bad'; emoji = '⚠️';
+    interp = 'Agent costs more than it delivers. Consider a human or simpler tool.';
+  } else if (avm < 2.0) {
+    cls = 'result-neutral'; emoji = '📊';
+    interp = 'Marginal value. Evaluate alternatives and optimize costs.';
+  } else if (avm < 5.0) {
+    cls = 'result-good'; emoji = '✅';
+    interp = 'Clear operational value. Justified investment.';
+  } else {
+    cls = 'result-good'; emoji = '🚀';
+    interp = 'High-value automation candidate. Strong ROI case.';
+  }
+  resultEl.innerHTML = `${emoji} AVM = ${avm.toFixed(2)}<br><span style="font-size:13px; font-weight:400;">${interp}</span>`;
+  resultEl.className = 'calc-result ' + cls;
+}
+
+// THRESHOLD SLIDER
+function updateThreshold() {
+  const val = document.getElementById('threshold-slider').value;
+  document.getElementById('threshold-val').textContent = parseInt(val).toLocaleString();
+}
+
+// KILL-SWITCH HIGHLIGHT (decorative)
+function highlightPath(node) {
+  // No-op — hover tooltips handle this
+}
+
+// QUIZ
+const quizState = { answered: {}, correct: 0 };
+const correctAnswers = { q1: 1, q2: 2, q3: 1, q4: 1, q5: 2 };
+
+function answer(el, isCorrect, qId) {
+  if (quizState.answered[qId]) return;
+  quizState.answered[qId] = true;
+
+  const opts = el.parentElement.querySelectorAll('.quiz-opt');
+  const feedback = document.getElementById(qId + '-feedback');
+
+  opts.forEach(opt => { opt.style.pointerEvents = 'none'; });
+
+  if (isCorrect) {
+    el.classList.add('correct');
+    feedback.className = 'quiz-feedback good show';
+    quizState.correct++;
+  } else {
+    el.classList.add('wrong');
+    // reveal correct
+    const allOpts = Array.from(opts);
+    const correctIndex = { q1: 1, q2: 2, q3: 1, q4: 1, q5: 2 }[qId];
+    allOpts[correctIndex].classList.add('reveal-correct');
+    feedback.className = 'quiz-feedback bad show';
+    feedback.innerHTML = '✗ ' + feedback.innerHTML;
+  }
+
+  // Update progress
+  const total = 5;
+  const answered = Object.keys(quizState.answered).length;
+  document.getElementById('quiz-progress').style.width = (answered / total * 100) + '%';
+
+  if (answered === total) {
+    setTimeout(() => {
+      const complete = document.getElementById('quiz-complete');
+      complete.style.display = 'block';
+      document.getElementById('quiz-score').textContent = quizState.correct + '/' + total + ' (' + Math.round(quizState.correct/total*100) + '%)';
+      complete.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 400);
+  }
+}
+
+// INIT
+calcAVM();
+</script>
+</body>
+</html>
