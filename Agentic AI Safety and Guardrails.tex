@@ -80,32 +80,37 @@ December\fi, \number \year}
 
 % --- Slide 1: Learning Objectives ---
 \begin{frame}{Learning Objectives}
+    \small
     By the end of this module, you will be able to:
     \begin{itemize}
-        \item \textbf{Implement Multi-Layer Guardrails:} Design input, reasoning, and output filters.
-        \item \textbf{Master 2026 Metrics:} Utilize the Agent Value Multiple (AVM) and Task Success Rate (TSR).
-        \item \textbf{Align with NIST Standards:} Apply the "Identity and Authorization for AI Agents" framework.
-        \item \textbf{Architect Fail-Safes:} Design robust kill-switches and human-in-the-loop triggers.
+        \item \textbf{Implement Multi-Layer Guardrails:}\\
+              Design input, reasoning, and output filters.
+        \item \textbf{Master 2026 Metrics:}\\
+              Utilize the Agent Value Multiple (AVM) and Task Success Rate (TSR).
+        \item \textbf{Align with NIST Standards:}\\
+              Apply the ``Identity and Authorization for AI Agents'' framework.
+        \item \textbf{Architect Fail-Safes:}\\
+              Design robust kill-switches and human-in-the-loop triggers.
     \end{itemize}
 \end{frame}
 
 % --- Slide 2: The 2026 Safety Landscape ---
 \begin{frame}{The 2026 Safety Landscape: Governance at Runtime}
-    \begin{columns}
-        \begin{column}{0.6\textwidth}
-            \textbf{New Regulatory Realities:}
-            \begin{itemize}
-                \item \textbf{NIST AI RMF 2.0:} Shifts focus to "autonomous risk."
-                \item \textbf{OWASP Top 10 for Agents:} Highlights "Broken Agentic Authorization."
-                \item \textbf{Identity-Centric Safety:} Agents now require verifiable non-human identities (NHI).
-            \end{itemize}
-        \end{column}
-        \begin{column}{0.4\textwidth}
-            \begin{alertblock}{The 2026 Challenge}
-                "Deterministic security for non-deterministic systems."
-            \end{alertblock}
-        \end{column}
-    \end{columns}
+    \small
+    \textbf{New Regulatory Realities:}
+    \begin{itemize}
+        \item \textbf{NIST AI RMF 2.0:}\\
+              Shifts focus to ``autonomous risk.''
+        \item \textbf{OWASP Top 10 for Agents:}\\
+              Highlights ``Broken Agentic Authorization.''
+        \item \textbf{Identity-Centric Safety:}\\
+              Agents now require verifiable non-human identities (NHI).
+    \end{itemize}
+    \vfill
+    \begin{alertblock}{The 2026 Challenge}
+        \centering
+        ``Deterministic security for non-deterministic systems.''
+    \end{alertblock}
 \end{frame}
 
 % --- Slide 3: Multi-Layer Guardrail Architecture ---
@@ -120,35 +125,41 @@ December\fi, \number \year}
     \end{enumerate}
 \end{frame}
 
-% --- Slide 4: Performance Metrics: Beyond Accuracy ---
+% --- Slide 4a: Performance Metrics: Beyond Accuracy ---
 \begin{frame}{Performance Metrics: Beyond Accuracy}
+    \small
     \begin{table}[]
         \centering
-        \begin{tabular}{@{}ll@{}}
+        \begin{tabular}{@{}p{3.2cm}p{6.5cm}@{}}
             \toprule
             \textbf{Metric} & \textbf{Description} \\ \midrule
-            \textbf{Agent Value Multiple (AVM)} & Value generated / Total inference + ops cost. \\
-            \textbf{Goal Success Rate (GSR)} & \% of sessions where all sub-goals were completed. \\
-            \textbf{Tool Selection Accuracy} & Correctness of tool choice vs. ground truth. \\
-            \textbf{Reasoning Latency} & Time spent in "Thought" vs. "Action" phases. \\ \bottomrule
+            Agent Value Multiple (AVM) & Value generated / Total inference + ops cost \\[4pt]
+            Goal Success Rate (GSR) & \% of sessions where all sub-goals were completed \\[4pt]
+            Tool Selection Accuracy & Correctness of tool choice vs.\ ground truth \\[4pt]
+            Reasoning Latency & Time spent in ``Thought'' vs.\ ``Action'' phases \\ \bottomrule
         \end{tabular}
     \end{table}
-    \vspace{0.3cm}
+    \vfill
     \centering
     \textit{Success is no longer just a correct answer; it is a reliable process.}
 \end{frame}
 
 % --- Slide 5: The Agent Kill-Switch & Human-in-the-Loop ---
 \begin{frame}{The Agent Kill-Switch \& HITL}
+    \small
     \begin{block}{Fail-Safe Design Patterns}
         \begin{itemize}
-            \item \textbf{Recursive Loop Detection:} Automatic termination after $N$ failed tool attempts.
-            \item \textbf{Value Thresholds:} Human approval required for actions exceeding \$500.
-            \item \textbf{Semantic Divergence:} Halting when the agent's plan deviates from the system prompt.
+            \item \textbf{Recursive Loop Detection:}\\
+                  Automatic termination after $N$ failed tool attempts.
+            \item \textbf{Value Thresholds:}\\
+                  Human approval required for actions exceeding \$500.
+            \item \textbf{Semantic Divergence:}\\
+                  Halting when the agent's plan deviates from the system prompt.
         \end{itemize}
     \end{block}
+    \vfill
     \centering
-    \textbf{Human-in-the-Loop (HITL) is not a bottleneck; it is a governance layer.}
+    \textbf{HITL is not a bottleneck; it is a governance layer.}
 \end{frame}
 
 % --- Slide 6: Summary ---
